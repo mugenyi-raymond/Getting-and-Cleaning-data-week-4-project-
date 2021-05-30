@@ -11,23 +11,23 @@ x_train <- read.table("train/X_train.txt", col.names = features$functions)
 y_train <- read.table("train/y_train.txt", col.names = "serial")
 
 
-# Step 1: Merges the training and the test sets to create one data set.
+# Merging the training and the test sets to create one data set.
 
 X_combined <- rbind(x_train, x_test)
 Y_combined <- rbind(y_train, y_test)
 Subject <- rbind(subject_train, subject_test)
 Merged_Data <- cbind(Subject, Y_combined, X_combined)
 
-# Step 2: Extracts only the measurements on the mean and standard deviation
+# Extracting only the measurements on the mean and standard deviation
 # for each measurement.
 
 library(dplyr)
 NiceData <- Merged_Data %>% select(Subject, serial, contains("mean"), contains("std"))
 
-# Step 3: Uses descriptive activity names to name the activities in the data set.
+# Using descriptive activity names to name the activities in the data set.
 NiceData$serial <- activities[NiceData$serial, 2]
 
-# Step 4: Appropriately labels the data set with descriptive variable names.
+# Appropriately labeling the data set with descriptive variable names.
 names(NiceData)[2] = "Activity"
 names(NiceData)<-gsub("Acc", "Accelerometer", names(NiceData))
 names(NiceData)<-gsub("Gyro", "Gyroscope", names(NiceData))
@@ -42,7 +42,7 @@ names(NiceData)<-gsub("-freq()", "Frequency", names(NiceData), ignore.case = TRU
 names(NiceData)<-gsub("angle", "Angle", names(NiceData))
 names(NiceData)<-gsub("gravity", "Gravity", names(NiceData))
 
-# Step 5: From the data set in step 4, creates a second, 
+# From the data set in step 4, creating a second, 
 # independent tidy data set with the average of each variable for each activity and 
 # each subject.
 TidyDataFinal<- NiceData %>%
